@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Disco Hits</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: #ffffff;
+      color: #212529;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .wrapper {
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 480px;
+      padding: 12px;
+      font-size: 10.5px;
+      line-height: 1.2;
+      position: relative;
+    }
+
+    .header-img {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin: 0 auto 8px auto;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      margin: 6px 0;
+    }
+
+    a {
+      text-decoration: none;
+      color: #070707;
+      font-size: 10.5px;
+      display: block;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    a:hover {
+      color: #f67f00;
+      font-weight: bold;
+    }
+
+    .player-wrapper {
+      position: relative;
+      margin-top: 16px;
+    }
+
+    .player-wrapper audio {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .robot-overlay {
+      position: absolute;
+      right: -20px;
+      bottom: 100%;
+      max-height: 100vh;
+      height: auto;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .playing {
+      background-color: #000000;
+    }
+
+    .playing a {
+      color: #ffffff;
+      font-weight: bold;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="container">
+      <img src="img/playlist2600x.png" alt="logo" class="header-img">
+
+      <ul id="playlist">
+        <li><a href="#" onclick="playAudio(0)">01. ABBA - Gimme! Gimme! Gimme!</a></li>
+        <li><a href="#" onclick="playAudio(1)">02. Boney M. - Ma Baker</a></li>       
+        <li><a href="#" onclick="playAudio(2)">03. Amii Stewart - Knock On Wood</a></li>
+        <li><a href="#" onclick="playAudio(3)">04. Anita Ward - Ring My Bell</a></li>
+        <li><a href="#" onclick="playAudio(4)">05. Bee Gees - You Should Be Dancing</a></li>
+        <li><a href="#" onclick="playAudio(5)">06. Bee Gees - Stayin' Alive</a></li>
+        <li><a href="#" onclick="playAudio(6)">07. Blondie - Heart Of Glass</a></li>
+        <li><a href="#" onclick="playAudio(7)">08. Boney M. - Gotta Go Home</a></li>
+        <li><a href="#" onclick="playAudio(8)">09. Boney M. - Daddy Cool</a></li>
+        <li><a href="#" onclick="playAudio(9)">10. Boney M. - Rasputin</a></li>
+        <li><a href="#" onclick="playAudio(10)">11. Chic - Le Freak</a></li>
+        <li><a href="#" onclick="playAudio(11)">12. Donna Summer - Hot Stuff</a></li>
+        <li><a href="#" onclick="playAudio(12)">13. Earth, Wind & Fire - September</a></li>
+        <li><a href="#" onclick="playAudio(13)">14. Lipps Inc. - Funkytown</a></li>
+        <li><a href="#" onclick="playAudio(14)">15. Patrick Hernandez - Born to Be Alive</a></li>
+        <li><a href="#" onclick="playAudio(15)">16. Pino D'Angiò - Ma quale idea</a></li>
+        <li><a href="#" onclick="playAudio(16)">17. Sylvester - You Make Me Feel</a></li>
+        <li><a href="#" onclick="playAudio(17)">18. Village People - Y.M.C.A.</a></li>
+        <li><a href="#" onclick="playAudio(18)">19. Village People - In The Navy</a></li>
+         <li><a href="#" onclick="playAudio(19)">20. Alaska y Los Pegamoides - Bailando</a></li
+
+      </ul>
+
+      <div class="player-wrapper">
+        <img src="img/disco.gif" alt="Disco overlay" class="robot-overlay">
+        <audio id="player" controls></audio>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const player = document.getElementById('player');
+    const playlist = [
+      'disco/ABBA - Gimme! Gimme! Gimme!.mp3',
+      'disco/Boney M. - Ma Baker.mp3',
+      'disco/Amii Stewart - Knock On Wood.mp3',
+      'disco/Anita Ward - Ring My Bell.mp3',
+      'disco/Bee Gees - You Should Be Dancing.mp3',
+      'disco/Bee Gees - Stayin Alive.mp3',
+      'disco/Blondie - Heart Of Glass.mp3',
+      'disco/Boney M. - Gotta Go Home.mp3',
+      'disco/Boney M. - Daddy Cool.mp3',
+      'disco/Boney M. - Rasputin.mp3',
+      'disco/Chic - Le Freak.mp3',
+      'disco/Donna Summer - Hot Stuff.mp3',
+      'disco/Earth, Wind & Fire - September.mp3',
+      'disco/Lipps Inc. - Funkytown.mp3',
+      'disco/Patrick Hernandez - Born to Be Alive.mp3',
+      'disco/Pino DAngio - Ma quale idea.mp3',
+      'disco/Sylvester - You Make Me Feel.mp3',
+      'disco/Village People - Y.M.C.A..mp3',
+      'disco/Village People - In The Navy.mp3',
+      'disco/Alaska y Los Pegamoides - Bailando.mp3'
+    ];
+
+    let currentTrack = null;
+    const listItems = document.querySelectorAll('#playlist li');
+
+    function highlightTrack(index) {
+      listItems.forEach((li, i) => {
+        li.classList.toggle('playing', i === index);
+      });
+    }
+
+    function playAudio(index) {
+      currentTrack = index;
+      player.src = playlist[currentTrack];
+      player.play();
+      highlightTrack(currentTrack);
+    }
+
+    player.addEventListener('ended', () => {
+      if (currentTrack !== null) {
+        currentTrack = (currentTrack + 1) % playlist.length;
+        player.src = playlist[currentTrack];
+        player.play();
+        highlightTrack(currentTrack);
+      }
+    });
+  </script>
+</body>
+</html>
