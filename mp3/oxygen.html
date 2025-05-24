@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Oxygene Playlist</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: #ffffff;
+      color: #212529;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .wrapper {
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 480px;
+      padding: 12px;
+      font-size: 10.5px;
+      line-height: 1.2;
+      position: relative;
+    }
+
+    .header-img {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin: 0 auto 8px auto;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      margin: 6px 0;
+    }
+
+    a {
+      text-decoration: none;
+      color: #070707;
+      font-size: 10.5px;
+      display: block;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    a:hover {
+      color: #f67f00;
+      font-weight: bold;
+    }
+
+    .player-wrapper {
+      position: relative;
+      margin-top: 16px;
+    }
+
+    .player-wrapper audio {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .robot-overlay {
+      position: absolute;
+      right: -20px;
+      bottom: 100%;
+      max-height: 55vh;
+      height: auto;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .playing {
+      background-color: #000000;
+    }
+
+    .playing a {
+      color: rgb(250, 250, 250);
+      font-weight: bold;
+      font-size: 12px;
+    }
+
+    @media (min-width: 481px) {
+      body {
+        overflow-x: hidden;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="container">
+      <img src="img/playlist2600x.png" alt="logo" class="header-img">
+
+      <ul id="playlist">
+        <li><a href="#" onclick="playAudio(0)">01. Oxygene, Pt. 1</a></li>
+        <li><a href="#" onclick="playAudio(1)">02. Oxygene, Pt. 2</a></li>
+        <li><a href="#" onclick="playAudio(2)">03. Oxygene, Pt. 3</a></li>
+        <li><a href="#" onclick="playAudio(3)">04. Oxygene, Pt. 4</a></li>
+        <li><a href="#" onclick="playAudio(4)">05. Oxygene, Pt. 5</a></li>
+        <li><a href="#" onclick="playAudio(5)">06. Oxygene, Pt. 6</a></li>
+        <li><a href="#" onclick="playAudio(6)">07. Oxygene, Pt. 7</a></li>
+        <li><a href="#" onclick="playAudio(7)">08. Oxygene, Pt. 8</a></li>
+        <li><a href="#" onclick="playAudio(8)">09. Oxygene, Pt. 9</a></li>
+        <li><a href="#" onclick="playAudio(9)">10. Oxygene, Pt. 10</a></li>
+        <li><a href="#" onclick="playAudio(10)">11. Oxygene, Pt. 11</a></li>
+        <li><a href="#" onclick="playAudio(11)">12. Oxygene, Pt. 12</a></li>
+        <li><a href="#" onclick="playAudio(12)">13. Oxygene, Pt. 13</a></li>
+        <li><a href="#" onclick="playAudio(13)">14. Oxygene, Pt. 14</a></li>
+        <li><a href="#" onclick="playAudio(14)">15. Oxygene, Pt. 15</a></li>
+        <li><a href="#" onclick="playAudio(15)">16. Oxygene, Pt. 16</a></li>
+        <li><a href="#" onclick="playAudio(16)">17. Oxygene, Pt. 17</a></li>
+        <li><a href="#" onclick="playAudio(17)">18. Oxygene, Pt. 18</a></li>
+        <li><a href="#" onclick="playAudio(18)">19. Oxygene, Pt. 19</a></li>
+        <li><a href="#" onclick="playAudio(19)">20. Oxygene, Pt. 20</a></li>
+      </ul>
+
+      <div class="player-wrapper">
+        <img src="img/oxygen.jpg" alt="oxygen" class="robot-overlay">
+        <audio id="player" controls></audio>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const player = document.getElementById('player');
+    const playlist = [
+      'oxygen/01. Oxygene, Pt. 1.mp3',
+      'oxygen/02. Oxygene, Pt. 2.mp3',
+      'oxygen/03. Oxygene, Pt. 3.mp3',
+      'oxygen/04. Oxygene, Pt. 4.mp3',
+      'oxygen/05. Oxygene, Pt. 5.mp3',
+      'oxygen/06. Oxygene, Pt. 6.mp3',
+      'oxygen/07. Oxygene, Pt. 7.mp3',
+      'oxygen/08. Oxygene, Pt. 8.mp3',
+      'oxygen/09. Oxygene, Pt. 9.mp3',
+      'oxygen/10. Oxygene, Pt. 10.mp3',
+      'oxygen/11. Oxygene, Pt. 11.mp3',
+      'oxygen/12. Oxygene, Pt. 12.mp3',
+      'oxygen/13. Oxygene, Pt. 13.mp3',
+      'oxygen/14. Oxygene, Pt. 14.mp3',
+      'oxygen/15. Oxygene, Pt. 15.mp3',
+      'oxygen/16. Oxygene, Pt. 16.mp3',
+      'oxygen/17. Oxygene, Pt. 17.mp3',
+      'oxygen/18. Oxygene, Pt. 18.mp3',
+      'oxygen/19. Oxygene, Pt. 19.mp3',
+      'oxygen/20. Oxygene, Pt. 20.mp3'
+    ];
+
+    let currentTrack = null;
+    const listItems = document.querySelectorAll('#playlist li');
+
+    function highlightTrack(index) {
+      listItems.forEach((li, i) => {
+        li.classList.toggle('playing', i === index);
+      });
+    }
+
+    function playAudio(index) {
+      currentTrack = index;
+      player.src = playlist[currentTrack];
+      player.play();
+      highlightTrack(currentTrack);
+    }
+
+    player.addEventListener('ended', () => {
+      if (currentTrack !== null) {
+        currentTrack = (currentTrack + 1) % playlist.length;
+        player.src = playlist[currentTrack];
+        player.play();
+        highlightTrack(currentTrack);
+      }
+    });
+  </script>
+</body>
+</html>
