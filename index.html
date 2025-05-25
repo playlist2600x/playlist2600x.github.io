@@ -11,6 +11,7 @@
       background-color: #ffffff;
       color: #212529;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      position: relative;
     }
 
     .wrapper {
@@ -24,8 +25,9 @@
       padding: 12px;
       font-size: 10.5px;
       line-height: 1.2;
-      position: relative;
       text-align: center;
+      position: relative;
+      z-index: 2;
     }
 
     .header-img {
@@ -60,14 +62,16 @@
       font-weight: bold;
     }
 
-  .robot-visible {
-    display: block;
-    margin: 16px auto 0 auto;
-    width: 320px;      
-    height: auto;
-    opacity: 1;
-  }
-
+    .cassette-img {
+      position: absolute;
+      top: 435px; /* ajustar para que aparezca tras el listado */
+      left: 50%;
+      transform: translateX(-50%);
+      width: 380px; /* tamaño grande */
+      height: auto;
+      z-index: 1;
+      pointer-events: none;
+    }
 
     @media (min-width: 481px) {
       body {
@@ -88,12 +92,12 @@
         <li><a href="mp3/heavymetal.html">Heavy Metal</a></li>
         <li><a href="mp3/calorro.html">Cañí</a></li>
         <li><a href="mp3/disco.html">Disco</a></li>
-		<li><a href="mp3/oxygen.html">Oxygene</a></li>
-		<li><a href="mp3/popSP.html">Pop SP</a></li>
+        <li><a href="mp3/oxygen.html">Oxygene</a></li>
+        <li><a href="mp3/popSP.html">Pop SP</a></li>
       </ul>
-
-      <img src="mp3/img/logo.gif" alt="logo" class="robot-visible">
     </div>
   </div>
+
+  <img src="mp3/img/logo.gif" alt="Cassette grande" class="cassette-img">
 </body>
 </html>
