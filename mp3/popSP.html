@@ -60,7 +60,7 @@
 
     .player-wrapper {
       position: relative;
-      margin-top: 16px;
+      margin: 12px 0;
     }
 
     .player-wrapper audio {
@@ -98,7 +98,10 @@
 <body>
   <div class="wrapper">
     <div class="container">
-    <img src="img/popSP.gif" alt="banner popSP" style="display:block;width:100%;height:auto;margin-bottom:12px;">
+      <img src="img/popSP.gif" alt="banner popSP" class="header-img">
+      <div class="player-wrapper">
+        <audio id="player" controls autoplay></audio>
+      </div>
       <ul id="playlist">
         <!-- Generado automáticamente desde lista.txt -->
         <li><a href="#" onclick="playAudio(0)">01. Desperados - La tormenta</a></li>
@@ -163,12 +166,7 @@
         <li><a href="#" onclick="playAudio(59)">60. Radio Futura - Paseo con la negra flor</a></li>
         <li><a href="#" onclick="playAudio(60)">61. Radio Futura - Semilla negra</a></li>
         <li><a href="#" onclick="playAudio(61)">62. Radio Futura - Veneno en la Piel</a></li>
-      </ul>
-
-      <div class="player-wrapper">
-
-        <audio id="player" controls></audio>
-      </div>
+ </ul>
     </div>
   </div>
 
@@ -255,14 +253,14 @@
       highlightTrack(currentTrack);
     }
 
-    player.addEventListener('ended', () => {
-      if (currentTrack !== null) {
-        currentTrack = (currentTrack + 1) % playlist.length;
-        player.src = playlist[currentTrack];
-        player.play();
-        highlightTrack(currentTrack);
-      }
-    });
+    function playRandomTrack() {
+      const randomIndex = Math.floor(Math.random() * playlist.length);
+      playAudio(randomIndex);
+    }
+
+    player.addEventListener('ended', playRandomTrack);
+
+    window.onload = playRandomTrack;
   </script>
 </body>
 </html>
