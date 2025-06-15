@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>La Nieve - Playlist</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: #ffffff;
+      color: #212529;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .wrapper {
+      display: flex;
+      justify-content: center;
+    }
+    .container {
+      width: 100%;
+      max-width: 480px;
+      padding: 12px;
+      font-size: 10.5px;
+      line-height: 1.2;
+      position: relative;
+    }
+    .header-img {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin: 0 auto 0 auto;
+    }
+    .sub-img {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      margin: 0 auto 12px auto;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    li {
+      margin: 6px 0;
+    }
+    a {
+      text-decoration: none;
+      color: #070707;
+      font-size: 10.5px;
+      display: block;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+    a:hover {
+      color: #f67f00;
+      font-weight: bold;
+    }
+    .player-wrapper {
+      position: relative;
+      margin-top: 16px;
+    }
+    .player-wrapper audio {
+      width: 100%;
+      border-radius: 10px;
+    }
+    .robot-overlay {
+      position: absolute;
+      right: -20px;
+      bottom: 100%;
+      max-height: 100vh;
+      height: auto;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    .playing {
+      background-color: #000000;
+    }
+    .playing a {
+      color: #ffffff;
+      font-weight: bold;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="container">
+      <img src="img/playlist2600x.png" alt="logo" class="header-img">
+      <img src="lanieve/lanieve.png" alt="Portada La Nieve" class="sub-img">
+
+      <ul id="playlist">
+        <li><a href="#" onclick="playAudio(0)">1. La llegada (Ask The Mountains - Vangelis)</a></li>
+        <li><a href="#" onclick="playAudio(1)">2. 5155 (Kalpol Intro - Pi)</a></li>
+        <li><a href="#" onclick="playAudio(2)">3. La visión (Lux Aeterna - Ligeti)</a></li>
+        <li><a href="#" onclick="playAudio(3)">4. La secuencia</a></li>
+        <li><a href="#" onclick="playAudio(4)">5. El crimen (BSO - James Hornet)</a></li>
+        <li><a href="#" onclick="playAudio(5)">6. La pregunta sin respuesta (Ives)</a></li>
+        <li><a href="#" onclick="playAudio(6)">7. La aparición del episodio compartido</a></li>
+        <li><a href="#" onclick="playAudio(7)">8. Cuatro años después - Final (BWV 937 - Bach)</a></li>
+      </ul>
+
+      <div class="player-wrapper">
+        <audio id="player" controls></audio>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const player = document.getElementById('player');
+    const playlist = [
+      'lanieve/1. La llegada (Ask The Mountains - Vangelis).mp3',
+      'lanieve/2. 5155 (Kalpol Intro - Pi).mp3',
+      'lanieve/3. La visión (Lux Aeterna - Ligeti).mp3',
+      'lanieve/4. La secuencia.mp3',
+      'lanieve/5. El crimen (BSO - James Hornet).mp3',
+      'lanieve/6. La pregunta sin respuesta (Ives).mp3',
+      'lanieve/7. La aparición del episodio compartido.mp3',
+      'lanieve/8. Final(BWV 937-Bach).mp3'
+    ];
+    let currentTrack = null;
+    const listItems = document.querySelectorAll('#playlist li');
+    function highlightTrack(index) {
+      listItems.forEach((li, i) => {
+        li.classList.toggle('playing', i === index);
+      });
+    }
+    function playAudio(index) {
+      currentTrack = index;
+      player.src = playlist[currentTrack];
+      player.play();
+      highlightTrack(currentTrack);
+    }
+    player.addEventListener('ended', () => {
+      if (currentTrack !== null) {
+        currentTrack = (currentTrack + 1) % playlist.length;
+        player.src = playlist[currentTrack];
+        player.play();
+        highlightTrack(currentTrack);
+      }
+    });
+  </script>
+</body>
+</html>
