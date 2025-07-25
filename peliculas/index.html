@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Catálogo de películas</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; }
+    .container { max-width: 950px; margin: 30px auto; background: #fff; border-radius: 8px; box-shadow: 0 4px 24px #0001; padding: 2rem; }
+    h1 { text-align: center; }
+    table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
+    th, td { border-bottom: 1px solid #ccc; padding: 0.5em 1em; text-align: left; }
+    th { background: #f8f8f8; }
+    tr:hover { background: #f5faff; }
+    #search { width: 100%; padding: 0.5em; margin-top: 1em; font-size: 1em; }
+    .pagination { margin-top: 1.5em; text-align: center; }
+    .pagination button { margin: 0 5px; padding: 0.5em 1.2em; font-size: 1em; border-radius: 4px; border: 1px solid #ddd; background: #fafafa; cursor: pointer; }
+    .pagination button.active, .pagination button:focus { background: #357edd; color: white; border-color: #357edd; }
+    .pagination button:disabled { color: #aaa; border-color: #eee; background: #fafafa; cursor: not-allowed; }
+    @media (max-width: 700px) {
+      .container { padding: 1em; }
+      th, td { padding: 0.3em 0.5em; font-size: 0.9em; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Catálogo de películas</h1>
+    <input id="search" type="text" placeholder="Buscar por título o disco...">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Título</th>
+          <th>Disco</th>
+        </tr>
+      </thead>
+      <tbody id="tabla"></tbody>
+    </table>
+    <div class="pagination" id="pagination"></div>
+  </div>
+  <script>
+    const PAGE_SIZE = 50; // Puedes ajustar el número de filas por página
+    let peliculas = [];
+    let currentPage = 1;
+    let filtered = [];
+
+    // Cargar el JSON localmente
+    fetch('peliculas.json')
+      .then(res => res.json())
+      .then(data => {
+        peliculas = data;
+        filtered = peliculas;
+        renderTable();
+        renderPagination();
+      });
+
+    // Filtro instantáneo
+    document.getElementById('search').addEventListener('input', function() {
+      const q = this.value.toLowerCase();
+      filtered = peliculas.filter(item =>
+        item.titulo.toLowerCase().includes(q) ||
+        item.disco.toLowerCase().includes(q)
+      );
+      currentPage = 1;
+      renderTable();
+      renderPagination();
+    });
+
+    function renderTable() {
+      const start = (currentPage - 1) * PAGE_SIZE;
+      const end = start + PAGE_SIZE;
+      const rows = filtered.slice(start, end).map((item, i) => `
+        <tr>
+          <td>${start + i + 1}</td>
+          <td>${item.titulo}</td>
+          <td>${item.disco}</td>
+        </tr>
+      `).join('');
+      document.getElementById('tabla').innerHTML = rows || '<tr><td colspan="3">Sin resultados.</td></tr>';
+    }
+
+    function renderPagination() {
+      const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+      const pagDiv = document.getElementById('pagination');
+      pagDiv.innerHTML = '';
+      if (totalPages <= 1) return;
+      for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement('button');
+        btn.textContent = i;
+        if (i === currentPage) btn.className = 'active';
+        btn.onclick = () => { currentPage = i; renderTable(); renderPagination(); };
+        pagDiv.appendChild(btn);
+      }
+    }
+  </script>
+</body>
+</html>
