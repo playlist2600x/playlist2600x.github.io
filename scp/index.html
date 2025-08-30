@@ -1,0 +1,105 @@
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Suéltalo Como Puedas — Selección (14)</title>
+  <style>
+    html, body { margin:0; padding:0; background:#000; color:#e7e7e7; font-family:Segoe UI,Tahoma,Geneva,Verdana,sans-serif; }
+    .wrapper { display:flex; justify-content:center; }
+    .container { width:100%; max-width:720px; padding:16px 16px 120px; font-size:14px; line-height:1.35; position:relative; }
+    ul { list-style:none; padding:0; margin:0; }
+    li { margin:6px 0; padding:8px 10px; border-radius:8px; background:#0f0f0f; cursor:pointer; }
+    .title { display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .player-wrapper { margin-top:16px; }
+    .player-wrapper audio { width:100%; border-radius:10px; }
+    .playing { background:#1e1e1e; font-weight:bold; }
+    .download-all { margin-top:20px; text-align:center; }
+    .zipbtn { appearance:none; border:1px solid #444; background:#226; color:#fff; padding:10px 16px; border-radius:8px; cursor:pointer; text-decoration:none; }
+    .zipbtn:hover { background:#338; }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="container">
+      <div class="download-all">
+		<a class="zipbtn" href="scp.zip" download>Descargar álbum completo</a>
+
+      </div>
+      <ul id="playlist">
+        <li data-i="0"><span class="title">01. Disco - luces a color</span></li>
+        <li data-i="1"><span class="title">02. Heavy - Sirenas interiores</span></li>
+        <li data-i="2"><span class="title">03. Jazz - Medianoche en la barra</span></li>
+        <li data-i="3"><span class="title">04. Rock - Noche en comisaría</span></li>
+        <li data-i="4"><span class="title">05. Rockabilly - Motor en la noche</span></li>
+        <li data-i="5"><span class="title">06. Rumba - Palmas y farola; luna y cajón</span></li>
+        <li data-i="6"><span class="title">07. Techno Pop - Neón en gabardina</span></li>
+        <li data-i="7"><span class="title">08. Techno Pop - Semáforos en rojo</span></li>
+        <li data-i="8"><span class="title">09. Techno Pop - Neón en gabardina</span></li>
+        <li data-i="9"><span class="title">10. Bluegrass - Camino de madrugada</span></li>
+        <li data-i="10"><span class="title">11. Blues - Lluvia en la acera</span></li>
+        <li data-i="11"><span class="title">12. Blues - Lluvia en la acera</span></li>
+        <li data-i="12"><span class="title">13. Bolero - Te fuiste despacio</span></li>
+        <li data-i="13"><span class="title">14. Celta - Eco de metal</span></li>
+      </ul>
+
+      <div class="player-wrapper">
+        <audio id="player" controls></audio>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const player = document.getElementById('player');
+
+    const playlist = [
+      '01_disco2_-_luces_a_color.mp3',
+      '02_heavy1_-_Sirenas_interiores.mp3',
+      '03_jazz2_-_Medianoche_en_la_barra_sombra_del_reloj.mp3',
+      '04_rock_-_Noche_en_comisaria_sirenas_a_cien.mp3',
+      '05_rockabilly1_-_Motor_en_la_noche_botas_al_andar.mp3',
+      '06_rumba_-_Palmas_y_farola_luna_y_cajon.mp3',
+      '07_techno_pop_2_-_Neon_en_gabardina.mp3',
+      '08_techno_pop_2_-_Semaforos_en_rojo_reloj_digital.mp3',
+      '09_tecno_pop_-_Neon_en_gabardina.mp3',
+      '10_bluegrass2_-_Camino_de_madrugada.mp3',
+      '11_blues1_-_Lluvia_en_la_acera.mp3',
+      '12_blues2_-_Lluvia_en_la_acera_hierro_en_mi_piel.mp3',
+      '13_bolero_-_Te_fuiste_despacio_llovia_interior.mp3',
+      '14_celta1_-_Eco_de_metal.mp3'
+    ];
+
+    let currentTrack = null;
+    const items = Array.from(document.querySelectorAll('#playlist li'));
+
+    function highlightTrack(i){
+      items.forEach((li, k)=>li.classList.toggle('playing', k===i));
+    }
+
+    function playAudio(index){
+      currentTrack = index;
+      player.src = playlist[currentTrack];
+      player.play().catch(()=>{});
+      highlightTrack(currentTrack);
+    }
+
+    items.forEach((li)=>{
+      const i = parseInt(li.dataset.i, 10);
+      li.addEventListener('click', ()=> playAudio(i));
+    });
+
+    // Autoplay del primer tema al cargar
+    window.addEventListener('DOMContentLoaded', ()=> playAudio(0));
+
+    // Avance automático
+    player.addEventListener('ended', ()=>{
+      if(currentTrack!==null){
+        currentTrack = (currentTrack+1)%playlist.length;
+        player.src = playlist[currentTrack];
+        player.play().catch(()=>{});
+        highlightTrack(currentTrack);
+      }
+    });
+  </script>
+</body>
+</html>
